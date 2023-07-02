@@ -15,7 +15,7 @@ class ProductController extends Controller
     //一覧表示(トップページなど)
     public function index()
     {
-        //
+        return view('products.index');
     }
     
     /**
