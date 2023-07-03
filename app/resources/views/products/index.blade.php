@@ -2,9 +2,30 @@
 
 @section('content')
 <div class="card-body">
-    <input type="text">
-    <button type="submit" class="btn btn-warning">検索する</button>
-    <button type="submit" class="btn btn-danger">出品する</button>
+    <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            下限価格
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+    </div>〜<div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            上限価格
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+    </div>
+    <input type="text" class="form-control" name="product_id">
+    <button type="submit" class="btn btn-outline-secondary">検索する</button>
+    <form action="{{ route('product.create')}}">
+        <button type="submit" class="btn btn-danger">出品する</button>
+    </form>
     <button type="submit" class="btn btn-outline-danger">出品一覧</button>
 </div>
 <div class="row row-cols-1 row-cols-md-3 g-4">

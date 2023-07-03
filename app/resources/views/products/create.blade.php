@@ -10,7 +10,7 @@
         @csrf
             <div class="mb-3">
                 <label for="image_file_products" class="form-label">写真をアップロード</label>
-                <input type="file" class="form-control" name="image_file_products">
+                <input type="file" class="form-control-file" name="image_file_products">
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">商品名</label>
