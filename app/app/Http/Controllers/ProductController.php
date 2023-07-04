@@ -15,7 +15,14 @@ class ProductController extends Controller
     //一覧表示(トップページなど)
     public function index()
     {
-        return view('products.index');
+        //モデルのインスタンスを形成し、変数に代入
+        $product = new Product;
+        //productモデルから全件取得、配列化
+        $eloquent = $product->all()->toArray();
+        //dd($eloquent);
+        return view('products.index',[
+            'products' => $eloquent,
+        ]);
     }
     
     /**
