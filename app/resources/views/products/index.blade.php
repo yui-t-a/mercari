@@ -38,12 +38,12 @@
         <button type="submit" class="btn btn-outline-danger">出品一覧</button>
     </div>
 </div>
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
+<div class="">
+    <div class="col d-flex flex-wrap">
         @foreach($products as $product)   
-        <div class="card h-100">
+        <div class="card">
              
-            <img src="{{ $product['image_file_products']}}" class="card-img-top" alt="商品画像">
+            <img src="{{ asset('storage/folder/'.$product['image_file_products'])}}" class="card-img-top" alt="商品画像">
             <div class="card-body">
                 <h5 class="card-title">{{ $product['name']}}</h5>
                 <p class="card-text">¥{{ $product['price']}}</p>

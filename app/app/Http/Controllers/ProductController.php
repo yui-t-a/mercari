@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -20,9 +21,15 @@ class ProductController extends Controller
         //productモデルから全件取得、配列化
         $eloquent = $product->all()->toArray();
         //dd($eloquent);
+        if(Auth::user()->role == 1){
         return view('products.index',[
             'products' => $eloquent,
         ]);
+    } else {
+        return view(
+            'products.admin'
+        );
+    }
     }
     
     /**
@@ -63,7 +70,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect('/');
+        return redirect('/product'); //ログイン後に一番最初に表示されるページ
     }
 
     /**
