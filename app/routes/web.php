@@ -14,4 +14,7 @@ Auth::routes();
 Route::get('/', function () {
     return view('toppage'); //トップページへ遷移
 });
+Route::group(['middleware' => 'auth'],function(){
 Route::resource('product', 'ProductController');
+Route::resource('mypage', 'MypageController');
+});

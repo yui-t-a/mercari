@@ -76,13 +76,22 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     //個別ページ表示(マイページなどの詳細ページ)
-    public function show(Product $product)
+    public function show(int $id)
     {
-        //
+        $product = new product;
+        
+        //productテーブルの中のuser_idカラムでログインしたユーザーのidを取得する
+        $user = $product->where('user_id',Auth::id())->get();
+        // dd($user);
+            return view('products.show',[
+                //左側のuserがshow.bladeで使える変数になる、右側の$userが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
+                'users'=>$user  
+            ]);
+            
     }
 
     /**
@@ -92,9 +101,18 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     //編集用のフォームを表示
-    public function edit(Product $product)
+    public function edit(Product $product) //$productでクリックした商品の値が取れる
     {
-        //
+        //dd($product);
+        //$product = new product;
+        
+        //productテーブルの中のuser_idカラムでログインしたユーザーのidを取得する
+        //$user = $product->where('id',Auth::id())->get();
+        //dd($user);
+            return view('products.product_edit',[
+                //左側のuserがshow.bladeで使える変数になる、右側の$userが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
+                'product'=>$product  
+            ]);
     }
 
     /**
@@ -107,7 +125,23 @@ class ProductController extends Controller
     //編集の処理をする
     public function update(Request $request, Product $product)
     {
-        //
+        $image = $request->file('image_file_products');
+        if(isset($image)){
+        //画像だけファイル名を変える必要があるため、foreachと別に記述する
+        $dir = 'folder';
+        //元々付いている画像の名前を取得
+        $file_name = $request->file('image_file_products')->getClientOriginalName();
+        // folderディレクトリに画像を保存
+        $request->file('image_file_products')->storeAs('public/' . $dir, $file_name);
+        $product->image_file_products = $file_name;
+        
+        }
+        $columns = ['name','situation','detail','price'];
+        foreach($columns as $column){
+            $product->$column = $request->$column; //requestが保存された値をcontrollerに保存される
+        }
+        $product->save();
+        return redirect('/product');
     }
 
     /**
@@ -119,6 +153,7 @@ class ProductController extends Controller
     //削除する処理
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect()->route('product.show',$product->id); //URLが{product}のように波括弧で囲まれている時の記述の仕方
     }
 }
