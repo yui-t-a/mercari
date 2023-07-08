@@ -62,7 +62,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('product.show',['product'=>Auth::user()->id]) }}">
+                                    <a class="dropdown-item" href="{{ route('mypage.show',['mypage'=>Auth::user()->id]) }}">
                                         {{ __('Mypage') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"

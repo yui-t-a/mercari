@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -79,20 +80,16 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    //個別ページ表示(マイページなどの詳細ページ)
-    public function show(int $id)
+    //個別ページ表示(マイページなどの詳細ページ。今回は商品詳細)
+    public function show(User $user)
     {
-        $product = new product;
-        
-        //productテーブルの中のuser_idカラムでログインしたユーザーのidを取得する
-        $user = $product->where('user_id',Auth::id())->get();
-        // dd($user);
-            return view('products.show',[
-                //左側のuserがshow.bladeで使える変数になる、右側の$userが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
-                'users'=>$user  
-            ]);
-            
+        return view('products.product_show');
+        // return view('products.show',[
+        //     //左側のuserがshow.bladeで使える変数になる、右側の$userが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
+        //     'users'=>$user  
+        // ]);
     }
+    
 
     /**
      * Show the form for editing the specified resource.
