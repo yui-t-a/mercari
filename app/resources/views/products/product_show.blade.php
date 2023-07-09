@@ -9,9 +9,10 @@
         <!-- 登録する処理を行うメソッド -->
         <form action="" method="post" enctype="multipart/form-data">
         @csrf
-            <div class="mb-3">           
+            <div class="mb-3">   
+                <!-- productcontroller内showにて$productを使用出来るよう記述 -->        
                 <img src="{{ asset('storage/folder/'.$product['image_file_products'])}}" class="card-img-top" alt="商品画像">            
-            </div> <!--['product' => Auth::image_file_products] ['product'=>Auth::user()->image_file_products]-->
+            </div> 
             <div class="mb-3">
                 <label for="name" class="form-label">商品名</label>
                 <h5 class="text-center">{{ $product['name']}}</h5>

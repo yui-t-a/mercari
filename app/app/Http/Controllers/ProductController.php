@@ -81,13 +81,12 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     //個別ページ表示(マイページなどの詳細ページ。今回は商品詳細)
-    public function show(User $user)
+    public function show(Product $product)
     {
-        return view('products.product_show');
-        // return view('products.show',[
-        //     //左側のuserがshow.bladeで使える変数になる、右側の$userが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
-        //     'users'=>$user  
-        // ]);
+        return view('products.product_show',[
+        //     //左側のproductがshow.bladeで使える変数になる、右側の$productが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
+            'product'=>$product    
+        ]);
     }
     
 
