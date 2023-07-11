@@ -32,7 +32,16 @@ class ProductController extends Controller
         );
     }
     }
-    
+    public function productIndex()
+    {
+        $product = new Product;
+        return view('product.index',[
+            //     //左側のproductがshow.bladeで使える変数になる、右側の$productが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
+                'product'=>$product,   
+                'user'=>$user 
+            ]);
+
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -35,7 +35,9 @@
         <form action="{{ route('product.create')}}">
             <button type="submit" class="btn btn-danger">出品する</button>
         </form>
-        <button type="submit" class="btn btn-outline-danger">出品一覧</button>
+        <form action="{{ route('product.index',['user' => $user['id']])}}">
+            <button type="submit" class="btn btn-outline-danger">出品一覧</button>
+        </form>
     </div>
 </div>
 <div class="">

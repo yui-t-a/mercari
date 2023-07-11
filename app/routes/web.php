@@ -17,4 +17,5 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'],function(){
 Route::resource('product', 'ProductController');
 Route::resource('mypage', 'MypageController');
+Route::get('/product/{id}/index',[ProductController::class,'productIndex'])->name('product.index');
 });
