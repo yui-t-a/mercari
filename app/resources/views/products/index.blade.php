@@ -35,7 +35,8 @@
         <form action="{{ route('product.create')}}">
             <button type="submit" class="btn btn-danger">出品する</button>
         </form>
-        <form action="{{ route('product.index',['user' => $user['id']])}}">
+        <!-- web.phpの波括弧の中と['〜'=>]の〜の記述は合わせる -->
+        <form action="{{ route('product.index',['id' => Auth::user()->id])}}"> 
             <button type="submit" class="btn btn-outline-danger">出品一覧</button>
         </form>
     </div>

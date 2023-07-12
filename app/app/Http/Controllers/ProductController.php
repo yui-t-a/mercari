@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use App\User;
+use App\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class ProductController extends Controller
 {
@@ -32,13 +34,16 @@ class ProductController extends Controller
         );
     }
     }
+    //ユーザーの出品商品一覧
     public function productIndex()
     {
         $product = new Product;
-        return view('product.index',[
+        $products = $product->where('user_id',Auth::id())->get(); //ログインしたユーザーの商品情報が欲しい→Auth::の記述必要
+        
+        return view('products.product_index',[
             //     //左側のproductがshow.bladeで使える変数になる、右側の$productが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
-                'product'=>$product,   
-                'user'=>$user 
+                'products'=>$products
+                
             ]);
 
     }
@@ -83,6 +88,7 @@ class ProductController extends Controller
         return redirect('/product'); //ログイン後に一番最初に表示されるページ
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -93,7 +99,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return view('products.product_show',[
-        //     //左側のproductがshow.bladeで使える変数になる、右側の$productが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
+        //     //左側のproductがshow.bladeで使える変数になる
             'product'=>$product    
         ]);
     }
@@ -115,7 +121,7 @@ class ProductController extends Controller
         //$user = $product->where('id',Auth::id())->get();
         //dd($user);
             return view('products.product_edit',[
-                //左側のuserがshow.bladeで使える変数になる、右側の$userが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
+                //左側のuserがshow.bladeで使える変数になる
                 'product'=>$product  
             ]);
     }
@@ -161,4 +167,36 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('product.show',$product->id); //URLが{product}のように波括弧で囲まれている時の記述の仕方
     }
+    public function productCreate(int $product_id) //商品のID
+    {
+        return view('products.product_create',[
+        'product_id'=>$product_id
+    ]);
+        
+    }
+    //商品購入時のユーザー情報登録(usersテーブル、purchasesテーブルに登録)
+    public function productStore(Request $request,int $products_id)
+    {
+        $users = new User;
+        $user = $users->find(Auth::id()); //ログインしているユーザー情報を持ってくる 
+        
+        $user->name = $request->name;
+        $user->tel = $request->tel;
+        $user->zipcode = $request->zipcode;
+        $user->address = $request->address;
+
+        $user->save();
+ 
+        //購入画面での入力値は新規登録
+        $purchases = new Purchase;
+        $purchases->user_id = Auth::id();//ログインしているユーザのID
+        $purchases->products_id = $products_id; 
+
+        $purchases->save();
+
+        return redirect('/product');
+
+
+    }
+
 }

@@ -29,7 +29,7 @@
                 <label for="price" class="form-label">価格</label>
                 <p class="text-center">¥{{ $product['price']}}</p>
             </div>
-            <button type="submit" class="btn btn-danger">購入する</button>
+            <a href="{{ route('product.buy',['id' => $product['id']]) }}" class="btn btn-danger">購入する</a>
         </form>
         </div>
     </div>

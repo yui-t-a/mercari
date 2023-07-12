@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +15,11 @@ Auth::routes();
 Route::get('/', function () {
     return view('toppage'); //トップページへ遷移
 });
+Route::get('/product/{id}/buy',[ProductController::class,'productCreate'])->name('product.buy');
+Route::post('/product/{id}/buy',[ProductController::class,'productStore']);
 Route::group(['middleware' => 'auth'],function(){
 Route::resource('product', 'ProductController');
 Route::resource('mypage', 'MypageController');
 Route::get('/product/{id}/index',[ProductController::class,'productIndex'])->name('product.index');
+
 });
