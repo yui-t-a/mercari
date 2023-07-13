@@ -6,6 +6,7 @@ use App\User;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class MypageController extends Controller
@@ -65,6 +66,7 @@ class MypageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //マイページの表示
     public function show(int $id) //ユーザのid
     {
         
@@ -81,6 +83,7 @@ class MypageController extends Controller
             
     }
     
+
 
     /**
      * Show the form for editing the specified resource.
@@ -136,5 +139,20 @@ class MypageController extends Controller
     public function destroy($id)
     {
         //
+    }
+    //購入履歴の表示
+    public function purchaseShow(int $id)
+    {
+        //$product = new product; →productテーブルから情報を取ってくるから記述不要
+        
+        //productテーブルの中のuser_idカラムでログインしたユーザーのidを取得する
+        $users = DB::table('purchases') //テーブル名なので複数形
+            ->join('products','purchases.products_id','products.id') //2つのテーブルのjoin
+            ->where('purchases.user_id',Auth::id()) //購入履歴のテーブルから取ってくるため
+            ->get();
+            //dd($users);
+        return view('products.purchase_history',[
+            'users'=>$users
+        ]);
     }
 }

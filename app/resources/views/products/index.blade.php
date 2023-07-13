@@ -1,42 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card-body">
-    <div class="d-flex flex-row">
-    <div class="dropdown">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            下限価格
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">3,000円以上</a></li>
-            <li><a class="dropdown-item" href="#">5,000円以上</a></li>
-            <li><a class="dropdown-item" href="#">10,000円以上</a></li>
-            <li><a class="dropdown-item" href="#">15,000円以上</a></li>
-            <li><a class="dropdown-item" href="#">20,000円以上</a></li>
-            <li><a class="dropdown-item" href="#">30,000円以上</a></li>
-        </ul>
-    </div>〜<div class="dropdown">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            上限価格
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">3,000円未満</a></li>
-            <li><a class="dropdown-item" href="#">5,000円未満</a></li>
-            <li><a class="dropdown-item" href="#">10,000円未満</a></li>
-            <li><a class="dropdown-item" href="#">15,000円未満</a></li>
-            <li><a class="dropdown-item" href="#">20,000円未満</a></li>
-            <li><a class="dropdown-item" href="#">30,000円未満</a></li>
-        </ul>
-    </div>
-    </div>
-    <div class="d-flex flex-row">
-        <input type="text" class="form-control" name="product_id">
-        <button type="submit" class="btn btn-outline-secondary">検索する</button>
+<!-- controller側に値を持っていく場合、inputタグ、selectタグで囲む必要がある(検索機能) -->
+<form action="{{ route('product.index')}}" method="get">
+    <div class="card-body">
+        <div class="d-flex flex-row">
+            <select name="first" id="">
+                <option value="">下限金額を選択</option>
+                <option value="3000">3,000円以上</option>
+                <option value="5000">5,000円以上</option>
+                <option value="10000">10,000円以上</option>
+                <option value="15000">15,000円以上</option>
+                <option value="20000">20,000円以上</option>
+                <option value="30000">30,000円以上</option>
+            </select>
+            <select name="last" id="">
+                <option value="">上限金額を選択</option>
+                <option value="3000">3,000円未満</option>
+                <option value="5000">5,000円未満</option>
+                <option value="10000">10,000円未満</option>
+                <option value="15000">15,000円未満</option>
+                <option value="20000">20,000円未満</option>
+                <option value="30000">30,000円未満</option>
+            </select>
+        
+        </div>
+        <input type="text" class="form-control" name="keyword">
+            <button type="submit" class="btn btn-outline-secondary">検索する</button>
+</form>
+        <div class="d-flex flex-row">
+            
         <form action="{{ route('product.create')}}">
             <button type="submit" class="btn btn-danger">出品する</button>
         </form>
         <!-- web.phpの波括弧の中と['〜'=>]の〜の記述は合わせる -->
-        <form action="{{ route('product.index',['id' => Auth::user()->id])}}"> 
+        <form action="{{ route('product.list',['id' => Auth::user()->id])}}"> 
             <button type="submit" class="btn btn-outline-danger">出品一覧</button>
         </form>
     </div>

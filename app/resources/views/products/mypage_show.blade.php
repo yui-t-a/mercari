@@ -19,9 +19,9 @@
                 <h5 class="card-title">紹介文</h5>
                 <p class="card-text">{{ Auth::user()->comment }}</p>
         </div>
-        <form action="">
+        <a href="{{ route('product.history',['id' => Auth::id()])}}">
             <button type="submit" class="btn btn-danger">購入した商品</button>
-        </form>
+        </a>
         <button type="submit" class="btn btn-outline-danger">売上履歴</button>
     </div>
 </div>

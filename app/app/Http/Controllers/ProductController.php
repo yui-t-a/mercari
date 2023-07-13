@@ -17,16 +17,39 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     //一覧表示(トップページなど)
-    public function index()
+    public function index(Request $request)
     {
         //モデルのインスタンスを形成し、変数に代入
         $product = new Product;
         //productモデルから全件取得、配列化
         $eloquent = $product->all()->toArray();
-        //dd($eloquent);
+
+        //検索
+        $first = $request->input('first'); //inputタグに選択されたものが取得出来る
+        $last = $request->input('last');
+
+        $keyword = $request->input('keyword');
+        
+        //全件取得(productテーブル分)
+        $q = Product::query();
+
+        //金額検索
+        if (isset($first) && isset($last)) {
+            $q->whereBetween("price", [$first,$last]); //〜から〜までの検索
+        }
+        if (isset($keyword)) {
+            //productテーブルの中のnameカラムの中で$keywordにヒットしたワードが出てくる(商品名＆商品説明)
+            $q->orWhere("name", "LIKE", "%{$keyword}%") //1こだけの検索(productテーブルと指定する必要なし)
+            ->orWhere("detail", "LIKE", "%{$keyword}%");
+        }
+
+        $products = $q->get(); //商品名なども全て検索かける(最終的にforeachで回す)
+    
+        
+        
         if(Auth::user()->role == 1){
         return view('products.index',[
-            'products' => $eloquent,
+            'products' => $products,
         ]);
     } else {
         return view(

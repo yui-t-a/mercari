@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\MypageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +18,10 @@ Route::get('/', function () {
 });
 Route::get('/product/{id}/buy',[ProductController::class,'productCreate'])->name('product.buy');
 Route::post('/product/{id}/buy',[ProductController::class,'productStore']);
+Route::get('/product/{id}/history',[MypageController::class,'purchaseShow'])->name('product.history');
 Route::group(['middleware' => 'auth'],function(){
 Route::resource('product', 'ProductController');
 Route::resource('mypage', 'MypageController');
-Route::get('/product/{id}/index',[ProductController::class,'productIndex'])->name('product.index');
+Route::get('/product/{id}/index',[ProductController::class,'productIndex'])->name('product.list');
 
 });
