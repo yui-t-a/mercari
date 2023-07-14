@@ -29,7 +29,7 @@
                 <input type="text" class="form-control" name="price">
             </div>
             <button type="submit" class="btn btn-danger">出品する</button>
-            <button type="submit" class="btn btn-outline-danger">削除する</button>
+            
         </form>
         </div>
     </div>

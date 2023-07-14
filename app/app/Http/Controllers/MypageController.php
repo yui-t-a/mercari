@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Product;
+use App\Follow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +38,7 @@ class MypageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) //POSTデータの取得
     {
         $user = new User;
 
@@ -57,7 +58,7 @@ class MypageController extends Controller
 
         $record->save();
 
-        return redirect()->route('product.show',$record->id);
+        return redirect()->route('mypage.show',$record->id);
     }
 
     /**
@@ -70,7 +71,7 @@ class MypageController extends Controller
     public function show(int $id) //ユーザのid
     {
         
-        $product = new product; //$product = new product;
+        $product = new product; 
         
         //productテーブルの中のuser_idカラムでログインしたユーザーのidを取得する
         $user = $product->where('user_id',Auth::id())->get();
@@ -155,4 +156,89 @@ class MypageController extends Controller
             'users'=>$users
         ]);
     }
+    //売上履歴(購入されたらsoldputもしくは論理削除の機能が必要？)
+    public function productSoldout(int $id)
+    {
+        $users = DB::table('purchases') //テーブル名なので複数形
+            ->join('products','purchases.products_id','products.id') //2つのテーブルのjoin
+            ->where('products.user_id',Auth::id()) //売上→ユーザが販売した商品のテーブルから取ってくるため
+            ->get();
+            //dd($users);
+        
+        return view('products.product_soldout',[
+        'users'=>$users
+    ]);
+        
+    }
+
+    //他ユーザーの紹介ページの表示
+    public function userShow(int $user_id) //productsテーブルの'user_id'が入っている
+    {
+        
+        $product = new product; 
+        
+        //productテーブルの中のidカラムとURL上のidが一致したらgetする
+        $products = $product->where('user_id',$user_id)->get(); //商品表示用
+        
+        $users = new User;
+        //$user_idでユーザーテーブルから取得した値をuser_idのカラムから取ってくる
+        $user = $users->where('id',$user_id)->first(); 
+
+        //フォローテーブルの値を取得する必要がある
+        $follow = new Follow;
+        $follows = $follow->where('follower_id',$user_id)->first();   //フォローユーザを1件だけ取得する 
+
+        //dd($user);
+        //return view()の中にはviewsフォルダの中のbladeの名前を書く
+            return view('products/user_page',[
+                //左側のuserがshow.bladeで使える変数になる、右側の$userが(↑の$follows = $follow->where('follower_id',$user_id)->first();の情報が入っている)
+                'user'=>$user,
+                'products'=>$products,
+                'follows'=>$follows,
+            ]);
+            
+    }
+    //フォロー機能(新規登録)
+    public function followStoreForm(Request $request,int $user) {
+        $follow = new Follow; 
+        
+
+        $follow->follow_id = Auth::user()->id; //ログインユーザー＝フォローユーザー
+        $follow->follower_id = $user;  //フォローされたユーザー ($userの中にidが入っている)
+        $follow->save();
+
+        
+        return redirect()->route('other.user',$user);
+    }
+    public function unfollowStoreForm(Request $request,int $user) {
+
+        $follows = new Follow; 
+
+        $follow = $follows->where('follower_id',$user)->first();   //どのユーザーかを指定しないとDBへ保存できない
+
+        $follow->follow_id = Auth::user()->id; //ログインユーザー＝フォローユーザー
+        $follow->follower_id = $user;  //フォローされたユーザー ($userの中にidが入っている)
+        $follow->delete();
+
+        
+        return redirect()->route('other.user',$user);
+    }
+
+    //フォローユーザーの一覧表示(followsテーブルとフォローしたユーザのusersテーブルの情報が必要)
+    public function followList(int $user) {
+        
+        $users = DB::table('follows') //テーブル名なので複数形
+            ->join('users','follows.follower_id','users.id') //2つのテーブルのjoin
+            ->where('follow_id',Auth::id()) //ログインしたユーザーのフォローした人
+            ->get();
+            //dd($users);
+        
+        return view('products.follow_userlist',[
+            //     //左側のusersがshow.bladeで使える変数になる、右側の$usersが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
+                'users'=>$users
+                
+            ]);
+
+    }
+
 }

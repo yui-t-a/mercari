@@ -12,7 +12,7 @@
     <div class="d-flex flex-row">
     <div class="card">         
         <div class="mb-3">
-            <!-- product_idが選択した商品のものを表示させる     -->
+            
         <img src="" class="card-img-top" alt="アイコン画像"> 
                 <label for="image_file_name" class="form-label">画像を変更する</label>
                 <input type="file" class="form-control-file" name="image_file_name">
