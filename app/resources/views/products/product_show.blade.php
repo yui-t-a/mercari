@@ -32,15 +32,15 @@
             <a href="{{ route('product.buy',['id' => $product['id']]) }}" class="btn btn-danger">購入する</a>
         </form>
         <div class="mb-3">
-            @if($like_model->like_exist(Auth::user()->id,$post->id))
+            @if($like_function->like_exists(Auth::user()->id,$product['id']))
             <p class="favorite-marke">
-            <a class="js-like-toggle loved" href="" data-postid="{{ $post->id }}"><i class="fas fa-heart"></i></a>
-                <span class="likesCount">{{$post->likes_count}}</span>
+            <button class="js-like-toggle loved" href="" data-postid="{{ $product['id'] }}"><i class="fas fa-heart"></i></button>
+                
             </p>
             @else
             <p class="favorite-marke">
-            <a class="js-like-toggle" href="" data-postid="{{ $post->id }}"><i class="fas fa-heart"></i></a>
-                <span class="likesCount">{{$post->likes_count}}</span>
+            <button class="js-like-toggle" href="" data-postid="{{ $product['id'] }}"><i class="fas fa-heart"></i></button>
+                <span class="likesCount"></span>
             </p>
             @endif
         </div>
@@ -55,3 +55,13 @@
 </div>
 
 @endsection
+<style>
+    .loved i{
+        color: red !important;
+    }
+    .js-like-toggle{
+        background-color: white;
+        color: gray;
+        border: none; 
+    }
+</style>

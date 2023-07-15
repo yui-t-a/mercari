@@ -1,10 +1,13 @@
 $(function () {
+    
     var like = $('.js-like-toggle');
     var likePostId;
     
     like.on('click', function () {
+        
         var $this = $(this);
         likePostId = $this.data('postid');
+        console.log(likePostId);
         $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -12,7 +15,7 @@ $(function () {
                 url: '/ajaxlike',  //routeの記述
                 type: 'POST', //受け取り方法の記述（GETもある）
                 data: {
-                    'post_id': likePostId //コントローラーに渡すパラメーター
+                    'products_id': likePostId //コントローラーに渡すパラメーター
                 },
         })
     
@@ -22,7 +25,7 @@ $(function () {
                 $this.toggleClass('loved'); 
     
     //.likesCountの次の要素のhtmlを「data.postLikesCount」の値に書き換える
-                $this.next('.likesCount').html(data.postLikesCount); 
+                //$this.next('.likesCount').html(data.productLikesCount); 
     
             })
             // Ajaxリクエストが失敗した場合

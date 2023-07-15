@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\User;
 use App\Purchase;
+use App\Like_function;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class ProductController extends Controller
@@ -121,9 +123,17 @@ class ProductController extends Controller
     //個別ページ表示(マイページなどの詳細ページ。今回は商品詳細)
     public function show(Product $product)
     {
+        $like_function = new Like_function;
+        // ユーザの投稿の一覧を作成日時の降順で取得
+        //withCount('テーブル名')とすることで、リレーションの数も取得できる(product_show.bladeの{$post->likes_count}の箇所)
+        //$posts = Like_function::withCount('like_functions')->paginate(10);
+        
+
         return view('products.product_show',[
         //     //左側のproductがshow.bladeで使える変数になる
-            'product'=>$product    
+            'product'=>$product,
+            
+            'like_function'=>$like_function,
         ]);
     }
     
@@ -188,11 +198,12 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('product.show',$product->id); //URLが{product}のように波括弧で囲まれている時の記述の仕方
+        return redirect()->route('mypage.show',['mypage'=>Auth::id()]); //URLが{product}のように波括弧で囲まれている時の記述の仕方
     }
+    //商品の購入処理
     public function productCreate(int $product_id) //商品のID
     {
-        return view('products.product_create',[
+        return redirect('product_create',[
         'product_id'=>$product_id
     ]);
         
@@ -222,51 +233,53 @@ class ProductController extends Controller
     }
 
     //いいね機能
-    public function productLike()
-    {
-        $data = [];
-        // ユーザの投稿の一覧を作成日時の降順で取得
-        //withCount('テーブル名')とすることで、リレーションの数も取得できる(product_show.bladeの{$post->likes_count}の箇所)
-        $posts = Post::withCount('like_functions')->orderBy('created_at', 'desc')->paginate(10);
-        $like_model = new Like;
-
-        $data = [
-                'posts' => $posts,
-                'like_model'=>$like_model,
-            ];
-
-        return view('product.show', $data);
-    }
-
         public function ajaxlike(Request $request)
     {
         $id = Auth::user()->id;
-        $post_id = $request->post_id;
-        $like = new Like;
-        $post = Post::findOrFail($post_id);
+        $products_id = $request->products_id;
+        $like_function = new Like_function;
+        $product = Product::findOrFail($products_id);
 
         // 空でない（既にいいねしている）なら
-        if ($like->like_exist($id, $post_id)) {
+        if ($like_function->like_exists($id, $products_id)) {
             //likesテーブルのレコードを削除
-            $like = Like::where('post_id', $post_id)->where('user_id', $id)->delete();
+            $like_function = Like_function::where('products_id', $products_id)->where('user_id', $id)->delete();
         } else {
             //空（まだ「いいね」していない）ならlikesテーブルに新しいレコードを作成する
-            $like = new Like;
-            $like->post_id = $request->post_id;
-            $like->user_id = Auth::user()->id;
-            $like->save();
+            $like_function = new Like_function;
+            $like_function->products_id = $request->products_id;
+            $like_function->user_id = Auth::user()->id;
+            $like_function->save();
         }
 
         //loadCountとすればリレーションの数を○○_countという形で取得できる（今回の場合はいいねの総数）
-        $postLikesCount = $post->loadCount('likes')->likes_count;
+        //$productLikesCount = $product->loadCount('like_functions')->likes_count;
 
         //一つの変数にajaxに渡す値をまとめる
         //今回ぐらい少ない時は別にまとめなくてもいい
-        $json = [
-            'postLikesCount' => $postLikesCount,
-        ];
+        // $json = [
+        //     'productLikesCount' => $productLikesCount,
+        // ];
         //下記の記述でajaxに引数の値を返す
-        return response()->json($json);
+        return response()->json();
+    }
+
+    //いいね一覧
+    public function likeShow(int $user)
+    {
+        $like_function = new Like_function;
+        // $like_functions = $like_function->where('user_id',Auth::id())->get(); 
+        // $products = $product->where('user_id',Auth::id())->get(); //ログインしたユーザーの商品情報が欲しい→Auth::の記述必要
+        $users = DB::table('like_functions') //テーブル名なので複数形
+            ->join('products','like_functions.products_id','products.id') //2つのテーブルのjoin
+            ->where('like_functions.user_id',Auth::id()) //ログインしたユーザーのid
+            ->get();
+        // dd($users);
+        return view('products.like_list',[
+        //     //左側のproductがshow.bladeで使える変数になる
+            'users'=>$users,
+            
+        ]);
     }
 
 }

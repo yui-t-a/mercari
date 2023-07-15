@@ -17,8 +17,10 @@
             <a href="{{ route('follow.list',['id' => Auth::id()])}}">
                 <button type="submit" class="btn btn-outline-secondary">フォローユーザー</button>
             </a>
-        <button type="submit" class="btn btn-outline-secondary">いいねした商品</button>
-        <div class="card-body">
+            <a href="{{ route('like.list',['id' => Auth::id()])}}">
+                <button type="submit" class="btn btn-outline-secondary">いいねした商品</button>
+                <div class="card-body">
+            </a>
                 <h5 class="card-title">紹介文</h5>
                 <p class="card-text">{{ Auth::user()->comment }}</p>
         </div>

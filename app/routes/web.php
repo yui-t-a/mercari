@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MypageController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,10 +13,11 @@ use App\Http\Controllers\MypageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/', [HomeController::class,'index']); //トップページへ遷移
+//ログイン前の商品詳細
+//Route::get('/product/{id}/detail', [HomeController::class,'productDetail'])->name('product.detail');
 Auth::routes();
-Route::get('/', function () {
-    return view('toppage'); //トップページへ遷移
-});
 
 
 //ログイン中のユーザーのみアクセス可能
@@ -44,9 +46,13 @@ Route::get('/product/{id}/followlist',[MypageController::class,'followList'])->n
 //いいね機能
 Route::get('/product/{id}/index', [ProductController::class,'productLike'])->name('product.like');
 //ajaxlike.jsファイルのurl:'ルーティング'に書くものと合わせる。
-Route::post('ajaxlike', [ProductController::class,'ajaxlike'])->name('product.ajaxlike');
+Route::post('/ajaxlike', [ProductController::class,'ajaxlike'])->name('product.ajaxlike');
 Route::get('/product/{id}/index',[ProductController::class,'productIndex'])->name('product.list');
 
+//いいね一覧
+Route::get('/product/{id}/like', [ProductController::class,'likeShow'])->name('like.list');
 
+//管理ユーザートップページ
+Route::get('/admin', [Controller::class,''])->name('');
 
 });
