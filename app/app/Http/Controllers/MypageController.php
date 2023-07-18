@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use App\Http\Requests\CreateData;
+
 
 class MypageController extends Controller
 {
@@ -70,16 +72,17 @@ class MypageController extends Controller
     //マイページの表示
     public function show(int $id) //ユーザのid
     {
-        
+        $user = Auth::user();
         $product = new product; 
         
         //productテーブルの中のuser_idカラムでログインしたユーザーのidを取得する
-        $user = $product->where('user_id',Auth::id())->get();
+        $users = $product->where('user_id',Auth::id())->get();
         // dd($user);
         //return view()の中にはviewsフォルダの中のbladeの名前を書く
             return view('products/mypage_show',[
                 //左側のuserがshow.bladeで使える変数になる、右側の$userが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
-                'users'=>$user  
+                'users'=>$users,
+                'user'=>$user,
             ]);
             
     }

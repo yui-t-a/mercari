@@ -19,19 +19,22 @@
             </div>
             <div class="mb-3">
                 <label for="situation" class="form-label">商品の状態</label>
-                <p class="text-center">{{ $product['situation']}}</p>
+                <h5 class="text-center">{{ $product['situation']}}</h5>
             </div>
             <div class="mb-3">
                 <label for="detail" class="form-label">商品の説明</label>
-                <p class="text-center">{{ $product['detail']}}</p>
+                <h5 class="text-center">{{ $product['detail']}}</h5>
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">価格</label>
-                <p class="text-center">¥{{ $product['price']}}</p>
+                <h5 class="text-center">¥{{ $product['price']}}</h5>
             </div>
-            <a href="{{ route('product.buy',['id' => $product['id']]) }}" class="btn btn-danger">購入する</a>
+            @if($user['user_flg'] == 0)
+            <div class="my-1 mx-2">
+                <a href="{{ route('product.buy',['id' => $product['id']]) }}" class="btn btn-secondary btn-block">購入する</a>
+            
         </form>
-        <div class="mb-3">
+        <div class="my-2">
             @if($like_function->like_exists(Auth::user()->id,$product['id']))
             <p class="favorite-marke">
             <button class="js-like-toggle loved" href="" data-postid="{{ $product['id'] }}"><i class="fas fa-heart"></i></button>
@@ -43,6 +46,8 @@
                 <span class="likesCount"></span>
             </p>
             @endif
+            
+            </div>
         </div>
             <div class="mb-3">   
                 
@@ -50,6 +55,7 @@
                     <a href="{{ route('other.user',['id' => $product['user_id']])}}">出品者</a>
                          
             </div> 
+            @endif
         </div>
     </div>
 </div>

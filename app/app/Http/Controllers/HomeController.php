@@ -37,7 +37,7 @@ class HomeController extends Controller
         $keyword = $request->input('keyword');
         
         //全件取得(productテーブル分)
-        $q = Product::query();
+        $q = Product::query()->where('product_flg',0); //出品停止のものは表示させない
 
         //金額検索
         if (isset($first) && isset($last)) {

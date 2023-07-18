@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +15,7 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', [HomeController::class,'index']); //トップページへ遷移
+Route::get('/', [HomeController::class,'index'])->name('home.index'); //トップページへ遷移
 //ログイン前の商品詳細
 //Route::get('/product/{id}/detail', [HomeController::class,'productDetail'])->name('product.detail');
 Auth::routes();
@@ -53,6 +54,18 @@ Route::get('/product/{id}/index',[ProductController::class,'productIndex'])->nam
 Route::get('/product/{id}/like', [ProductController::class,'likeShow'])->name('like.list');
 
 //管理ユーザートップページ
-Route::get('/admin', [Controller::class,''])->name('');
+Route::get('/admin', [AdminController::class,'index'])->name('admin.index');
+//管理ユーザー内ユーザーリスト
+Route::get('/admin/userlist',[AdminController::class,'userShow'])->name('admin.userlist');
+//管理ユーザー内商品リスト
+Route::get('/admin/productlist',[AdminController::class,'productListShow'])->name('admin.productlist');
 
+//管理ユーザー内利用停止
+Route::get('/admin/{id}/userstop',[AdminController::class,'userStop'])->name('user.stop');
+//ユーザー利用再開
+Route::get('/admin/{id}/userstart',[AdminController::class,'userStart'])->name('user.start');
+//管理ユーザー内商品出品停止
+Route::get('/admin/{id}/productstop',[AdminController::class,'productStop'])->name('product.stop');
+//ユーザー商品出品再開
+Route::get('/admin/{id}/productstart',[AdminController::class,'productStart'])->name('product.start');
 });

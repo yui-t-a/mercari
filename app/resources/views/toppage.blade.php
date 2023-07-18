@@ -3,36 +3,42 @@
 
 @section('content')
 <!-- controller側に値を持っていく場合、inputタグ、selectタグで囲む必要がある(検索機能) -->
-<form action="{{ route('product.index')}}" method="get">
+<form action="{{ route('home.index')}}" method="get">
     <div class="card-body">
-        <div class="d-flex flex-row">
-            <select name="first" id="">
-                <option value="">下限金額を選択</option>
-                <option value="3000">3,000円以上</option>
-                <option value="5000">5,000円以上</option>
-                <option value="10000">10,000円以上</option>
-                <option value="15000">15,000円以上</option>
-                <option value="20000">20,000円以上</option>
-                <option value="30000">30,000円以上</option>
-            </select>
-            <select name="last" id="">
-                <option value="">上限金額を選択</option>
-                <option value="3000">3,000円未満</option>
-                <option value="5000">5,000円未満</option>
-                <option value="10000">10,000円未満</option>
-                <option value="15000">15,000円未満</option>
-                <option value="20000">20,000円未満</option>
-                <option value="30000">30,000円未満</option>
-            </select>
-        
+    <div class="d-flex flex-row">
+            <div class="mx-1">
+                <select name="first" id="">
+                    <option value="">下限金額を選択</option>
+                    <option value="3000">3,000円以上</option>
+                    <option value="5000">5,000円以上</option>
+                    <option value="10000">10,000円以上</option>
+                    <option value="15000">15,000円以上</option>
+                    <option value="20000">20,000円以上</option>
+                    <option value="30000">30,000円以上</option>
+                </select>
+            </div>
+            <div class="mx-1">
+                <select name="last" id="">
+                    <option value="">上限金額を選択</option>
+                    <option value="3000">3,000円未満</option>
+                    <option value="5000">5,000円未満</option>
+                    <option value="10000">10,000円未満</option>
+                    <option value="15000">15,000円未満</option>
+                    <option value="20000">20,000円未満</option>
+                    <option value="30000">30,000円未満</option>
+                </select>
+            </div>
+            
+            <div class="input-group mx-1">
+                <input type="text" class="form-control" name="keyword" placeholder="キーワードを入力">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fas fa-search"></i> 検索</button>
+            </div>
         </div>
-        <input type="text" class="form-control" name="keyword">
-            <button type="submit" class="btn btn-outline-secondary">検索する</button>
 </form>
         
 </div>
 <div class="">
-    <div class="col d-flex flex-wrap">
+    <div class="col d-flex flex-wrap justify-content-center">
         @foreach($products as $product)   
         <div class="card">
             <a href="{{ route('product.show',['product' => $product['id']])}}">

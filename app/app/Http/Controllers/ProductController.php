@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use App\Http\Requests\CreateProductData;
 
 class ProductController extends Controller
 {
@@ -33,7 +34,7 @@ class ProductController extends Controller
         $keyword = $request->input('keyword');
         
         //全件取得(productテーブル分)
-        $q = Product::query();
+        $q = Product::query()->where('product_flg',0); //出品停止のものは表示させない
 
         //金額検索
         if (isset($first) && isset($last)) {
@@ -45,13 +46,16 @@ class ProductController extends Controller
             ->orWhere("detail", "LIKE", "%{$keyword}%");
         }
 
-        $products = $q->get(); //商品名なども全て検索かける(最終的にforeachで回す)
+        $products = $q->orderBy('created_at','desc')->get(); //商品名なども全て検索かける(最終的にforeachで回す)
     
-        
-        
+    
+        $user = Auth::user();
+        //dd($user);
+
         if(Auth::user()->role == 1){
         return view('products.index',[
             'products' => $products,
+            'user' => $user,
         ]);
     } else {
         return view(
@@ -123,6 +127,7 @@ class ProductController extends Controller
     //個別ページ表示(マイページなどの詳細ページ。今回は商品詳細)
     public function show(Product $product)
     {
+        $user = Auth::user();
         $like_function = new Like_function;
         // ユーザの投稿の一覧を作成日時の降順で取得
         //withCount('テーブル名')とすることで、リレーションの数も取得できる(product_show.bladeの{$post->likes_count}の箇所)
@@ -132,7 +137,7 @@ class ProductController extends Controller
         return view('products.product_show',[
         //     //左側のproductがshow.bladeで使える変数になる
             'product'=>$product,
-            
+            'user'=>$user,
             'like_function'=>$like_function,
         ]);
     }
@@ -203,7 +208,7 @@ class ProductController extends Controller
     //商品の購入処理
     public function productCreate(int $product_id) //商品のID
     {
-        return redirect('product_create',[
+        return view('products.product_create',[
         'product_id'=>$product_id
     ]);
         
@@ -281,5 +286,6 @@ class ProductController extends Controller
             
         ]);
     }
+    
 
 }
