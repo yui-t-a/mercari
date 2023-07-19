@@ -42,7 +42,7 @@ class ProductController extends Controller
         }
         if (isset($keyword)) {
             //productテーブルの中のnameカラムの中で$keywordにヒットしたワードが出てくる(商品名＆商品説明)
-            $q->orWhere("name", "LIKE", "%{$keyword}%") //1こだけの検索(productテーブルと指定する必要なし)
+            $q->where("name", "LIKE", "%{$keyword}%") //1こだけの検索(productテーブルと指定する必要なし)
             ->orWhere("detail", "LIKE", "%{$keyword}%");
         }
 
@@ -56,6 +56,7 @@ class ProductController extends Controller
         return view('products.index',[
             'products' => $products,
             'user' => $user,
+            'keyword' => $keyword,
         ]);
     } else {
         return view(
@@ -105,7 +106,7 @@ class ProductController extends Controller
         // folderディレクトリに画像を保存
         $request->file('image_file_products')->storeAs('public/' . $dir, $file_name);
 
-        $product->user_id = 1; //ログイン処理実装後でauthのid持ってくる
+        $product->user_id = Auth::id(); //ログイン処理実装後でauthのid持ってくる
         $product->image_file_products = $file_name;
         $product->name = $request->name;
         $product->price = $request->price;

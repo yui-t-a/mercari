@@ -32,7 +32,7 @@
             </div>
             
             <div class="input-group mx-1">
-                <input type="text" class="form-control" name="keyword" placeholder="キーワードを入力">
+                <input type="text" class="form-control" name="keyword" placeholder="キーワードを入力" value="{{$keyword}}">
                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fas fa-search"></i> 検索</button>
             </div>
         </div>
@@ -45,9 +45,9 @@
         </form>
         </div> 
         <!-- web.phpの波括弧の中と['〜'=>]の〜の記述は合わせる -->
-        <form action="{{ route('product.list',['id' => Auth::user()->id])}}"> 
+        <!-- <form action="{{ route('product.list',['id' => Auth::user()->id])}}"> 
             <button type="submit" class="btn btn-outline-primary">出品一覧</button>
-        </form>
+        </form> -->
     @endif       
     </div>
 </div>

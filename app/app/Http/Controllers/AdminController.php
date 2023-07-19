@@ -18,7 +18,7 @@ class AdminController extends Controller
     //個別ページ表示(マイページなどの詳細ページ。今回はユーザーリスト)
     public function userShow(User $user)
     {
-        //userテーブルの中のidカラムを取得する
+        //userテーブルの中のidカラムを取得する(('role',1)で一般ユーザーのみ表示)
         $user_lists = User::where('role',1)->orderBy("id")->paginate(10);
         //dd($user_list);
 		return view("products.userlist_admin", [

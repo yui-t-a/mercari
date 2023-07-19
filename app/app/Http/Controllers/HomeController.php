@@ -45,7 +45,7 @@ class HomeController extends Controller
         }
         if (isset($keyword)) {
             //productテーブルの中のnameカラムの中で$keywordにヒットしたワードが出てくる(商品名＆商品説明)
-            $q->orWhere("name", "LIKE", "%{$keyword}%") //1こだけの検索(productテーブルと指定する必要なし)
+            $q->where("name", "LIKE", "%{$keyword}%") //1こだけの検索(productテーブルと指定する必要なし)
             ->orWhere("detail", "LIKE", "%{$keyword}%");
         }
 
@@ -53,6 +53,7 @@ class HomeController extends Controller
    
         return view('toppage',[
             'products' => $products,
+            'keyword' => $keyword,
         ]);
         
     

@@ -30,9 +30,9 @@
     <div class="col d-flex flex-wrap">
         @foreach($products as $product)   
         <div class="card">           
-            <a href="{{ route('product.edit',['product' => $product['id']])}}">
+            
                 <img src="{{ asset('storage/folder/'.$product['image_file_products'])}}" class="card-img-top" alt="商品画像">
-            </a>           
+                  
         </div>
         @endforeach
     </div>
