@@ -17,11 +17,11 @@
             
         <img src="" class="card-img-top" alt="アイコン画像"> 
                 <label for="image_file_name" class="form-label">画像を変更する</label>
-                <input type="file" class="form-control-file" name="image_file_name" required>
+                <input type="file" class="form-control-file" name="image_file_name">
             </div>
             <div class="mb-3">
                 <label for="comment" class="form-label">紹介文</label>
-                <input type="text" class="form-control" name="comment" value="" required>
+                <input type="text" class="form-control" name="comment" value="{{ $user['comment']}}" required>
             </div>
             
             <button type="submit" class="btn btn-danger">変更する</button>

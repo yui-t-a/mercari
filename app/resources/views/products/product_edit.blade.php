@@ -18,7 +18,7 @@
             <!-- product_idが選択した商品のものを表示させる     -->
         <img src="{{ asset('storage/folder/'.$product['image_file_products'])}}" class="card-img-top" alt="商品画像"> 
                 <label for="image_file_products" class="form-label">写真をアップロード</label>
-                <input type="file" class="form-control-file" name="image_file_products" required>
+                <input type="file" class="form-control-file" name="image_file_products">
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">商品名</label>

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="">
-    <div class="col-md-8 text-center">
+    <div class="text-center">
     <h5 class='text-center'>マイページ</h5>
     </div>
     <div class="d-flex flex-row justify-content-center">
@@ -10,10 +10,14 @@
         @if(isset(Auth::user()->image_file_name))
         <img src="{{ asset('storage/profile/'.Auth::user()->image_file_name)}}" class="card-img-top" alt="アイコン画像" style="width:100px;">
         @else
-        <img src="{{ asset('storage/profile/noimage.png')}}" class="card-img-top" alt="noimage" width="100">
+        <img src="{{ asset('storage/profile/noimage.png')}}" class="card-img-top" alt="noimage" width="width:100px;">
         @endif
-        <h5 class='text-center'>ユーザー名</h5>
-        <p class="card-text">{{ Auth::user()->name }}</p>
+        <div class="flex-column">
+            <p class='text-center'>ユーザー名</p>
+            <h5 class="card-text">{{ Auth::user()->name }}</h5>
+        </div>
+    </div>  
+    <div class ="">    
             @if($user['user_flg'] == 0)
             <!-- ページ遷移させたいname(波括弧の中)をパラメーターの左側に記述する -->
             <a href="{{ route('mypage.edit',['mypage' => Auth::id()])}}">
@@ -34,8 +38,10 @@
     </div>  
     
     <div class="d-flex flex-row justify-content-center">
-        <h5 class="card-title">紹介文</h5>
-                <p class="card-text">{{ Auth::user()->comment }}</p>
+        <div class="flex-column">
+            <p class="card-title">紹介文</p>
+            <h5 class="card-text">{{ Auth::user()->comment }}</h5>
+        </div>
         <a href="{{ route('product.history',['id' => Auth::id()])}}">
             <button type="submit" class="btn btn-danger">購入した商品</button>
         </a>

@@ -47,6 +47,7 @@ class MypageController extends Controller
         $id = Auth::id();  //ログインユーザーのidを取得
         $record = $user->find($id);  //どのユーザーかを指定しないとDBへ保存できない
 
+        if(isset($image_prolile)){
         //ディレクトリ名
         $dir = 'profile';
         //元々付いている画像の名前を取得
@@ -56,6 +57,7 @@ class MypageController extends Controller
 
         //$user->user_id = 1; //ログイン処理実装後でauthのid持ってくる
         $record->image_file_name = $file_name_profile;
+        }
         $record->comment = $request->comment;        
 
         $record->save();
@@ -97,6 +99,8 @@ class MypageController extends Controller
      */
     public function edit(User $user) //ログインユーザーの情報が入っている
     {
+        $user = Auth::user();
+        //dd($user);
         return view('products.mypage_edit',[
             //左側のuserがshow.bladeで使える変数になる、右側の$userが(↑の$user = $product->where('user_id',Auth::id())->get();の情報が入っている)
             'user'=>$user
@@ -191,7 +195,12 @@ class MypageController extends Controller
         $follow = new Follow;
         $follows = $follow->where('follower_id',$user_id)->first();   //フォローユーザを1件だけ取得する 
 
-        //dd($user);
+        //全件取得(productテーブル分)
+        $q = Product::query()->where('product_flg',0); //出品停止のものは表示させない
+
+        $products = $q->orderBy('created_at','desc')->get();
+
+        //dd($products);
         //return view()の中にはviewsフォルダの中のbladeの名前を書く
             return view('products/user_page',[
                 //左側のuserがshow.bladeで使える変数になる、右側の$userが(↑の$follows = $follow->where('follower_id',$user_id)->first();の情報が入っている)

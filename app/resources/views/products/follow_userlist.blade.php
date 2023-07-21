@@ -10,7 +10,11 @@
             
             <a href="{{ route('other.user',['id' => $user->id])}}">
                 <div class="card" style="width: 18rem;">
-                    <img src="{{ asset('storage/profile/'.$user->image_file_name)}}" class="card-img-top" alt="アイコン画像">
+                    @if(isset($user->image_file_name))
+                    <img src="{{ asset('storage/profile/'.Auth::user()->image_file_name)}}" class="card-img-top" alt="アイコン画像">
+                    @else
+                    <img src="{{ asset('storage/profile/noimage.png')}}" class="card-img-top" alt="noimage">
+                    @endif
                     <div class="card-body">
                         <h5 class="text-center">{{ $user->name}}</h5>
                     </div>

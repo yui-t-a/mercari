@@ -99,15 +99,18 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = new product;
+        if(isset($file_name)){
         //ディレクトリ名
         $dir = 'folder';
         //元々付いている画像の名前を取得
         $file_name = $request->file('image_file_products')->getClientOriginalName();
         // folderディレクトリに画像を保存
         $request->file('image_file_products')->storeAs('public/' . $dir, $file_name);
+        $product->image_file_products = $file_name;
+        }
 
         $product->user_id = Auth::id(); //ログイン処理実装後でauthのid持ってくる
-        $product->image_file_products = $file_name;
+        
         $product->name = $request->name;
         $product->price = $request->price;
         $product->detail = $request->detail;

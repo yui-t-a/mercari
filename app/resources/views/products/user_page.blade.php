@@ -7,7 +7,12 @@
     <h4 class='text-center'>出品者</h4>
     </div>
     <div class="d-flex flex-row">
-        <img src="{{ asset('storage/profile/'.$user->image_file_name)}}" class="card-img-top w-25" alt="アイコン画像">
+        @if(isset($user->image_file_name))
+        <img src="{{ asset('storage/profile/'.$user->image_file_name)}}" class="card-img-top" alt="アイコン画像" style="width:100px;">
+        @else
+        <img src="{{ asset('storage/profile/noimage.png')}}" class="card-img-top" alt="noimage" style="width:150px;">
+        @endif
+        <!-- <img src="{{ asset('storage/profile/'.$user->image_file_name)}}" class="card-img-top w-25" alt="アイコン画像"> -->
         <h5 class='text-center'>ユーザー名</h5>
         <p class="card-text">{{ $user->name }}</p>
         @if(empty($follows))
