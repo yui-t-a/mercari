@@ -10,7 +10,7 @@
             <div class="d-flex flex-row justify-content-center m-5">
                 <!-- class="w-25"で画像の幅を小さく指定 -->
                 @if(isset(Auth::user()->image_file_name))
-                <img src="{{ asset('storage/profile/'.Auth::user()->image_file_name)}}" class="card-img-top" alt="アイコン画像" style="width:100px;">
+                <img src="{{ asset('storage/profile/'.Auth::user()->image_file_name)}}" class="card-img-top" alt="アイコン画像" style="width:200px;">
                 @else
                 <img src="{{ asset('storage/profile/noimage.png')}}" class="card-img-top" alt="noimage" width="width:100px;">
                 @endif

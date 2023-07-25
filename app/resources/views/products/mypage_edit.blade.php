@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card-body">
+<div class="card-body text-center">
     <div class="col-md-8">
     <h4 class='text-center'>プロフィール編集</h4>
     </div>

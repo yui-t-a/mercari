@@ -31,7 +31,7 @@
             </div>
             @if($user['user_flg'] == 0)
             <div class="my-1 mx-2">
-                <a href="{{ route('product.buy',['id' => $product['id']]) }}" class="btn btn-secondary btn-block">購入する</a>
+                <a href="{{ route('product.buy',['id' => $product['id']]) }}" class="btn btn-primary btn-block">購入する</a>
             
         </form>
         <div class="my-2">
