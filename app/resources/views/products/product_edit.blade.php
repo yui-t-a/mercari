@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="col-md-8">
+<div class="">
     <h5 class='text-center'>出品商品編集</h5>
 </div>
 

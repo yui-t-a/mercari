@@ -5,12 +5,12 @@
     <div class="text-center">
     <h5 class='text-center'>マイページ</h5>
     </div>
-    <div class="d-flex m-3">
+    <div class="d-flex justify-content-center m-3">
         <div class="">
-            <div class="d-flex flex-row justify-content-center m-5">
+            <div class="d-flex flex-row justify-content-center m-3">
                 <!-- class="w-25"で画像の幅を小さく指定 -->
                 @if(isset(Auth::user()->image_file_name))
-                <img src="{{ asset('storage/profile/'.Auth::user()->image_file_name)}}" class="card-img-top" alt="アイコン画像" style="width:200px;">
+                <img src="{{ asset('storage/profile/'.Auth::user()->image_file_name)}}" class="card-img-top" alt="アイコン画像" style="width:150px;">
                 @else
                 <img src="{{ asset('storage/profile/noimage.png')}}" class="card-img-top" alt="noimage" width="width:100px;">
                 @endif
@@ -24,7 +24,7 @@
                 <h5 class="text-center">{{ Auth::user()->comment }}</h5>
             </div>
         </div>
-        <div class ="d-flex flex-column justify-content-center m-2">
+        <div class ="d-flex flex-column justify-content-center m-3">
                 @if($user['user_flg'] == 0)
                 <!-- ページ遷移させたいname(波括弧の中)をパラメーターの左側に記述する -->
                 <a href="{{ route('mypage.edit',['mypage' => Auth::id()])}}">
@@ -46,10 +46,12 @@
         
     
             <div class="flex-column mb-2">
-                
-                <a href="{{ route('product.history',['id' => Auth::id()])}}">
-                    <button type="submit" class="btn btn-outline-danger" style="width:30vw;">購入した商品</button>
-                </a>
+                <div class="mb-1">
+                    <a href="{{ route('product.history',['id' => Auth::id()])}}">
+                        <button type="submit" class="btn btn-outline-danger" style="width:30vw;">購入した商品</button>
+                    </a>
+                </div>
+                <br>
                 <a href="{{ route('product.soldout',['id' => Auth::id()])}}">
                     <button type="submit" class="btn btn-outline-danger" style="width:30vw;">売上履歴</button>
                 </a>
