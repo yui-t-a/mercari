@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="text-center" style="color:red;">
 @if($user['user_flg'] == 1)
 <p>利用停止されています</p>
 @endif
+</div>
 <!-- controller側に値を持っていく場合、inputタグ、selectタグで囲む必要がある(検索機能) -->
 <form action="{{ route('product.index')}}" method="get">
     <div class="card-body">
@@ -37,7 +39,7 @@
             </div>
         </div>
 </form>
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-row my-3">
     <div class="mx-2">
     @if($user['user_flg'] == 0)
         <form action="{{ route('product.create')}}">

@@ -1,22 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="">
-    <h5 class='text-center'>出品商品編集</h5>
-</div>
-
 <div class="container">
     <div class="row justify-content-center">
-    <!-- route()内にURLに入れるパラメーターを渡す -->
-    <form action="{{ route('product.update',$product->id)}}" method="post" enctype="multipart/form-data">
-    @method('PATCH')    <!-- rootlistに書いているMethodの内容を記述 -->
-    @csrf
-    <div class="d-flex flex-row">
-    <div class="">         
-        <div class="mb-3">
+        <div class="col-md-8">
+
+            <h5 class='text-center'>出品商品編集</h5>
+
+
+
+            <!-- route()内にURLに入れるパラメーターを渡す -->
+            <form action="{{ route('product.update',$product->id)}}" method="post" enctype="multipart/form-data">
+            @method('PATCH')    <!-- rootlistに書いているMethodの内容を記述 -->
+            @csrf
+          
+            <div class="mb-3">
             <!-- product_idが選択した商品のものを表示させる     -->
-        <img src="{{ asset('storage/folder/'.$product['image_file_products'])}}" class="card-img-top" alt="商品画像"> 
+                <img src="{{ asset('storage/folder/'.$product['image_file_products'])}}" class="card-img-top" alt="商品画像"> 
                 <label for="image_file_products" class="form-label">写真をアップロード</label>
                 <input type="file" class="form-control-file" name="image_file_products">
             </div>
@@ -38,17 +38,16 @@
             </div>
             <button type="submit" class="btn btn-primary btn-block">編集する</button>
         
-    </div>
     
-    </div>
-    </form>
-    <form action="{{ route('product.destroy',$product->id)}}" method="post">
-    @method('delete')
-    @csrf <!--フォームタグがある時に記述する必要がある -->
-        <input type="submit" value="削除する" class="btn btn-danger" onclick='return confirm("削除しますか？");'>
-    </form>
+            </form>
+            <form action="{{ route('product.destroy',$product->id)}}" method="post">
+                @method('delete')
+                @csrf <!--フォームタグがある時に記述する必要がある -->
+                <input type="submit" value="削除する" class="btn btn-danger" onclick='return confirm("削除しますか？");' style="width:53vw;">
+            </form>
+   
+        </div>
     </div>
 </div>
-
 
 @endsection
